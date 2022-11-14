@@ -1,12 +1,11 @@
 FROM node
 
-WORKDIR /niki-frontend/
+WORKDIR /server/
 
-COPY package-lock.json package.json /niki-frontend/
-COPY package.json
+COPY package-lock.json package.json /server/
 
 RUN npm install
 
-COPY . /niki-frontend/
+COPY . /server/
 
 CMD ["npm", "run", "dev"]

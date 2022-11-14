@@ -1,9 +1,15 @@
 <script setup lang="ts">
-import TheWelcome from '../components/TheWelcome.vue'
+  import Login from "../components/Login.vue"
 </script>
 
 <template>
   <main>
-    <TheWelcome />
+    <Login/>
   </main>
 </template>
+
+<style>
+  main {
+    height: 100%;
+  }
+</style>
