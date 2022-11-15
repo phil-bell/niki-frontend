@@ -1,21 +1,3 @@
-<script setup lang="ts">
-  import { ref } from 'vue'
-
-  const username = ref()
-  const password = ref()
-
-</script>
-
-<template>
-  <div class="login">
-    <form method="POST" action="/api/login/" class="login__form">
-      <input id="username" name="username" class="login__input -username" v-model="username">
-      <input id="password" name="password" class="login__input -password" type="password" v-model="password">
-      <button type="submit" class="login__button">Login</button>
-    </form>
-  </div>
-</template>
-
 <style scoped>
   .login{
     align-items: center;
@@ -29,3 +11,33 @@
     width: 20%;
   }
 </style>
+
+<template>
+  <div class="login">
+    <form @submit.prevent="submit" class="login__form">
+      <input v-model="form.username" class="login__input -username">
+      <input v-model="form.password" class="login__input -password" type="password">
+      <button class="login__button" type="submit">Login</button>
+    </form>
+  </div>
+</template>
+
+<script>
+
+  export default {
+    data() {
+      return {
+        form: {
+          username: "",
+          password: "",
+        }
+      }
+    },
+    methods: {
+      async submit() {
+        console.log(this.form)
+      }
+    }
+  }
+
+</script>
