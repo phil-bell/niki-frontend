@@ -1,6 +1,8 @@
-<script setup lang="ts">
-  import Login from "../components/Login.vue"
-</script>
+<style>
+  main {
+    height: 100%;
+  }
+</style>
 
 <template>
   <main>
@@ -8,8 +10,6 @@
   </main>
 </template>
 
-<style>
-  main {
-    height: 100%;
-  }
-</style>
+<script setup lang="ts">
+  import Login from "../components/Login.vue"
+</script>

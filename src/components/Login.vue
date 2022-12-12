@@ -23,8 +23,12 @@
 </template>
 
 <script>
-
+  import { useUserStore } from "../stores/user"
   export default {
+    setup(){
+      const userStore = useUserStore()
+      return {userStore,}
+    },
     data() {
       return {
         form: {
@@ -34,10 +38,16 @@
       }
     },
     methods: {
-      async submit() {
-        console.log(this.form)
+      submit() {
+        if (this.form.username == "phil" && this.form.password == "pass") {
+          this.userStore.setUser(this.form.username, "exampletoken")
+          console.log(this.userStore.username)
+          console.log(this.userStore.token)
+        }
+        else {
+          console.log("invalid user")
+        }
       }
     }
   }
-
 </script>
