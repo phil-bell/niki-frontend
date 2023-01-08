@@ -20,4 +20,4 @@ CMD ["npm", "run", "build"]
 # docker build --target dev -t niki-frontend .
 
 # Start command: 
-# docker run --rm --tty --name niki-frontend -v $(pwd):/server -p 5173:5173 -v /server/node_modules niki-frontend
+# docker run --rm --tty --name niki-frontend -v $(pwd):/server -p 8001:8001 -v /server/node_modules niki-frontend
