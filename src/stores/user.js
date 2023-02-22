@@ -8,6 +8,7 @@ export const useUserStore = defineStore("storeId", {
       username: null,
       access: null,
       refresh: null,
+      authenticated: false,
     };
   },
   actions: {
@@ -15,6 +16,32 @@ export const useUserStore = defineStore("storeId", {
       this.username = username;
       this.access = access;
       this.refresh = refresh;
+      this.authenticated = true;
+    },
+    async refreshUser() {
+      const response = await fetch("http://0.0.0.0:8000/api/refresh/", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          refresh: this.refresh,
+        }),
+        mode: "cors",
+      });
+
+      if (!response.ok) {
+        (this.username = null),
+          (this.access = null),
+          (this.refresh = null),
+          (this.authenticated = false);
+      }
+
+      const data = response.json();
+
+      this.access = data.access;
+      this.authenticated = true;
     },
   },
 });

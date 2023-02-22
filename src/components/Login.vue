@@ -48,8 +48,8 @@ export default {
     };
   },
   methods: {
-    submit() {
-      const data = {
+    async submit() {
+      const response = await fetch("http://0.0.0.0:8000/api/token/", {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -59,23 +59,16 @@ export default {
           username: this.form.username,
           password: this.form.password,
         }),
-        referrerPolicy: "no-referrer",
         mode: "cors",
-      };
-      fetch("http://0.0.0.0:8000/api/token/", data)
-        .then(async (response) => {
-          const data = await response.json();
+      });
+      const data = response.json();
 
-          if (!response.ok) {
-            const error = (data && data.message) || response.status;
-            return Promise.reject(error);
-          }
-          this.userStore.setUser(this.form.username, data.access, data.refresh);
-        })
-        .catch((error) => {
-          this.errorMessage = error;
-          console.error("There was an error!", error);
-        });
+      if (!response.ok) {
+        const error = (data && data.message) || response.status;
+        console.error("There was an error!", error);
+      }
+
+      this.userStore.setUser(this.form.username, data.access, data.refresh);
     },
   },
 };
