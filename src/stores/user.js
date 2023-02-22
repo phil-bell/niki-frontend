@@ -6,13 +6,15 @@ export const useUserStore = defineStore("storeId", {
     return {
       // all these properties will have their type inferred automatically
       username: null,
-      token: null,
+      access: null,
+      refresh: null,
     };
   },
   actions: {
-    setUser(username, token) {
+    setUser(username, access, refresh) {
       this.username = username;
-      this.token = token;
+      this.access = access;
+      this.refresh = refresh;
     },
   },
 });

@@ -1,15 +1,15 @@
 <style>
-  main {
-    height: 100%;
-  }
+main {
+  height: 100%;
+}
 </style>
 
 <template>
   <main>
-    <Login/>
+    <Login />
   </main>
 </template>
 
 <script setup lang="ts">
-  import Login from "../components/Login.vue"
+import Login from "../components/Login.vue";
 </script>
