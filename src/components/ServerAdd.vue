@@ -34,10 +34,13 @@ export default {
     submit() {
       const requestOptions = {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify(this.form),
       };
-      fetch("localhost:8000/", requestOptions)
+      fetch("http://0.0.0.0:8000/api/server/", requestOptions)
         .then((response) => response.json())
         .then((data) => console.log(data));
     },

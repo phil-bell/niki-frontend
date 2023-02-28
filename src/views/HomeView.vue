@@ -1,5 +1,8 @@
 <style>
 main {
+  height: 90%;
+  display: grid;
+  align-content: center;
   height: 100%;
 }
 </style>

@@ -1,16 +1,16 @@
 <style>
 main {
-  height: 100%;
+  height: 80%;
   display: grid;
-  align-items: center;
+  align-content: center;
   grid-template-rows: minmax(min-content, max-content);
 }
 </style>
 
 <template>
   <main>
-    <ServerAdd />
     <ServerList />
+    <ServerAdd />
   </main>
 </template>
 
