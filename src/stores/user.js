@@ -25,17 +25,20 @@ export const useUserStore = defineStore("storeId", {
       router.push("/login");
     },
     async refreshUser() {
-      const response = await fetch("http://0.0.0.0:8000/api/refresh/", {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          refresh: this.refresh,
-        }),
-        mode: "cors",
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_NIKI_BACKEND_URL}api/refresh/`,
+        {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            refresh: this.refresh,
+          }),
+          mode: "cors",
+        }
+      );
 
       if (!response.ok) {
         (this.username = null),

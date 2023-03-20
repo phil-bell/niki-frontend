@@ -23,10 +23,13 @@
 .login__label {
   display: block;
 }
+.login__text.-error {
+  color: red;
+}
 </style>
 
 <template>
-  <div class="login">
+  <main class="login">
     <form @submit.prevent="submit" class="login__form">
       <label> username: </label>
       <input v-model="form.username" class="login__input -username" />
@@ -37,8 +40,9 @@
         type="password"
       />
       <button class="login__button" type="submit">Login</button>
+      <p class="login__text -error">{{ error }}</p>
     </form>
-  </div>
+  </main>
 </template>
 
 <script>
@@ -54,30 +58,39 @@ export default {
         username: "",
         password: "",
       },
+      error: "",
     };
   },
   methods: {
     async submit() {
-      const response = await fetch("http://0.0.0.0:8000/api/token/", {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: this.form.username,
-          password: this.form.password,
-        }),
-        mode: "cors",
-      });
-      const data = await response.json();
-
+      const response = await fetch(
+        `${import.meta.env.VITE_NIKI_BACKEND_URL}/api/token/`,
+        {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: this.form.username,
+            password: this.form.password,
+          }),
+          mode: "cors",
+        }
+      );
       if (!response.ok) {
-        const error = (data && data.message) || response.status;
-        console.error("There was an error!", error);
+        switch (response.status) {
+          case 400:
+            this.error = "Incorrect username or poassword";
+            break;
+          default:
+            this.error = "Theres been an error with your request";
+        }
+      } else {
+        const data = await response.json();
+        this.userStore.setUser(this.form.username, data.access, data.refresh);
+        this.$router.push("/search");
       }
-      this.userStore.setUser(this.form.username, data.access, data.refresh);
-      this.$router.push("/search");
     },
   },
 };

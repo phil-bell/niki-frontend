@@ -47,15 +47,18 @@ export default {
     async fetchData() {
       const userStore = useUserStore();
 
-      const response = await fetch("http://0.0.0.0:8000/api/server/", {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${userStore.access}`,
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        mode: "cors",
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_NIKI_BACKEND_URL}/api/server/`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${userStore.access}`,
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          mode: "cors",
+        }
+      );
       this.servers = await response.json();
 
       if (!response.ok) {

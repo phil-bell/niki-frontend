@@ -40,7 +40,10 @@ export default {
         },
         body: JSON.stringify(this.form),
       };
-      fetch("http://0.0.0.0:8000/api/server/", requestOptions)
+      fetch(
+        `${import.meta.env.VITE_NIKI_BACKEND_URL}/api/server/`,
+        requestOptions
+      )
         .then((response) => response.json())
         .then((data) => console.log(data));
     },
