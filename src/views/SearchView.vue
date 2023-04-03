@@ -1,6 +1,6 @@
 <style>
 .search {
-  align-items: center;
+  align-content: start;
   display: grid;
   height: 90%;
   justify-items: center;
@@ -12,6 +12,7 @@
 }
 .search__input {
   height: 20px;
+  border-radius: 2px;
 }
 .search__button {
   height: 25px;
@@ -23,6 +24,33 @@
 .search__text.-error {
   color: red;
 }
+
+.search__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-auto-rows: 1fr;
+  gap: 3rem;
+  width: 80%;
+}
+/* .search__card {
+  border: 1px solid;
+  border-radius: 2px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-areas:
+    "name name"
+    ". ."
+    ". ."
+    "button button";
+}
+.search__content.-name {
+  grid-area: name;
+  word-wrap: break-word;
+}
+.search__button.-card {
+  grid-area: button;
+} */
 </style>
 <template>
   <main class="search">
@@ -32,22 +60,20 @@
       <button class="search__button">search</button>
       <p class="search__text -error">{{ error }}</p>
     </form>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-        </tr>
-      </thead>
-      <tbody id="stocksTerminal">
-        <tr v-for="torrent in data">
-          <td>{{ torrent.name }}s</td>
-        </tr>
-      </tbody>
-    </table>
+    <div v-if="data" class="search__grid">
+      <SearchCard
+        v-for="torrent in data"
+        :name="torrent.name"
+        :status="torrent.status"
+        :seeders="torrent.seeders"
+      />
+    </div>
   </main>
 </template>
 <script>
+import SearchCard from "../components/SearchCard.vue";
 import { useUserStore } from "../stores/user";
+
 export default {
   setup() {
     const userStore = useUserStore();
@@ -55,9 +81,9 @@ export default {
   },
   data() {
     return {
-      term: "",
-      error: "",
-      data: [],
+      term: null,
+      error: null,
+      data: null,
     };
   },
   methods: {
@@ -78,11 +104,14 @@ export default {
       );
       if (!response.ok) {
         this.error = "Theres been an error with your request";
+        this.data = null;
       } else {
+        this.error = null;
         this.data = await response.json();
         console.log(this.data);
       }
     },
   },
+  components: { SearchCard },
 };
 </script>
