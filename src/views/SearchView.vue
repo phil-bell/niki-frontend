@@ -47,6 +47,7 @@
         :name="torrent.name"
         :status="torrent.status"
         :seeders="torrent.seeders"
+        :magnet="torrent.magnet"
       />
     </div>
   </main>

@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import router from "../router/index";
-export const useUserStore = defineStore("storeId", {
+export const useUserStore = defineStore("users", {
   state: () => {
     return {
       username: null,
@@ -23,6 +23,36 @@ export const useUserStore = defineStore("storeId", {
       this.refresh = null;
       this.authenticated = false;
       router.push("/login");
+    },
+    async login(username, password) {
+      const response = await fetch(
+        `${import.meta.env.VITE_NIKI_BACKEND_URL}/api/token/`,
+        {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: username,
+            password: password,
+          }),
+          mode: "cors",
+        }
+      );
+      if (!response.ok) {
+        switch (response.status) {
+          case 400:
+            this.error = "Incorrect username or poassword";
+            break;
+          default:
+            this.error = "Theres been an error with your request";
+        }
+      } else {
+        const data = await response.json();
+        this.setUser(username, data.access, data.refresh);
+        this.$router.push("/search");
+      }
     },
     async refreshUser() {
       const response = await fetch(

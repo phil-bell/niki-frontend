@@ -60,13 +60,18 @@
     </div>
     <form v-if="adding" @submit.prevent="submit" class="card__form">
       <select v-model="location" class="card__select -location">
-        <option>Movies</option>
-        <option>TV</option>
+        <option disabled selected value="">Please choose location</option>
+        <option
+          v-for="location in this.locationStore.locations"
+          v-bind:value="location.pk"
+        >
+          {{ location.path }}
+        </option>
       </select>
       <button
         class="card__button -card -cancel"
         type="button"
-        @click="adding = !adding"
+        @click="toggleAdd"
       >
         cancel
       </button>
@@ -79,42 +84,51 @@
       <div class="card__text">{{ status }}</div>
       <div class="card__text">seeders:</div>
       <div class="card__text">{{ seeders }}s</div>
-      <button class="card__button -card" @click="adding = !adding">add</button>
+      <button class="card__button -card" @click="toggleAdd">add</button>
     </div>
   </div>
 </template>
 
 <script>
+import { useLocationStore } from "../stores/location";
+import { useServerStore } from "../stores/server";
 import { useUserStore } from "../stores/user";
 export default {
   setup() {
     const userStore = useUserStore();
-    return { userStore };
+    const locationStore = useLocationStore();
+    const serverStore = useServerStore();
+    return { locationStore, userStore, serverStore };
   },
   props: {
     name: String,
     status: String,
     seeders: String,
+    magnet: String,
   },
   data() {
     return {
       adding: false,
-      location: "",
+      location: null,
+      locations: [],
     };
   },
   methods: {
     async submit() {
+      await this.serverStore.fetchServers();
+      console.log(this.serverStore.servers)
       const response = await fetch(
         `${import.meta.env.VITE_NIKI_BACKEND_URL}/api/torrent/`,
         {
           method: "POST",
           headers: {
+            Authorization: `Bearer ${this.userStore.access}`,
             Accept: "application/json",
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
             magnet: this.magnet,
-            server: this.server,
+            server: this.serverStore.servers[2].pk,
             location: this.location,
           }),
           mode: "cors",
@@ -125,7 +139,12 @@ export default {
       } else {
         this.error = null;
         this.data = await response.json();
-        console.log(this.data);
+      }
+    },
+    async toggleAdd() {
+      this.adding = !this.adding;
+      if (this.adding) {
+        this.locationStore.fetchLocations();
       }
     },
   },
