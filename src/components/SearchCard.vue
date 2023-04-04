@@ -58,14 +58,22 @@
     <div class="card__text -name">
       <strong>{{ name }}</strong>
     </div>
-    <div v-if="adding" class="card__form">
-      <select class="card__select -location">
+    <form v-if="adding" @submit.prevent="submit" class="card__form">
+      <select v-model="location" class="card__select -location">
         <option>Movies</option>
         <option>TV</option>
       </select>
-      <button class="card__button -card -cancel " @click="adding = !adding">cancel</button>
-      <button class="card__button -card -download">download</button>
-    </div>
+      <button
+        class="card__button -card -cancel"
+        type="button"
+        @click="adding = !adding"
+      >
+        cancel
+      </button>
+      <button class="card__button -card -download" type="submit">
+        download
+      </button>
+    </form>
     <div v-else class="card__detail">
       <div class="card__text">status:</div>
       <div class="card__text">{{ status }}</div>
@@ -91,8 +99,35 @@ export default {
   data() {
     return {
       adding: false,
+      location: "",
     };
   },
-  methods: {},
+  methods: {
+    async submit() {
+      const response = await fetch(
+        `${import.meta.env.VITE_NIKI_BACKEND_URL}/api/torrent/`,
+        {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            magnet: this.magnet,
+            server: this.server,
+            location: this.location,
+          }),
+          mode: "cors",
+        }
+      );
+      if (!response.ok) {
+        this.error = "Theres been an error with your request";
+      } else {
+        this.error = null;
+        this.data = await response.json();
+        console.log(this.data);
+      }
+    },
+  },
 };
 </script>
