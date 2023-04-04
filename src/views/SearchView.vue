@@ -32,25 +32,6 @@
   gap: 3rem;
   width: 80%;
 }
-/* .search__card {
-  border: 1px solid;
-  border-radius: 2px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr;
-  grid-template-areas:
-    "name name"
-    ". ."
-    ". ."
-    "button button";
-}
-.search__content.-name {
-  grid-area: name;
-  word-wrap: break-word;
-}
-.search__button.-card {
-  grid-area: button;
-} */
 </style>
 <template>
   <main class="search">
@@ -86,8 +67,14 @@ export default {
       data: null,
     };
   },
+  async mounted() {
+    if (this.$route.query.term) {
+      this.term = this.$route.query.term;
+      this.search();
+    }
+  },
   methods: {
-    async submit() {
+    async search() {
       const response = await fetch(
         `${import.meta.env.VITE_NIKI_BACKEND_URL}/api/search/`,
         {
@@ -110,6 +97,10 @@ export default {
         this.data = await response.json();
         console.log(this.data);
       }
+    },
+    submit() {
+      this.$router.push({ query: { term: this.term } });
+      this.search();
     },
   },
   components: { SearchCard },
