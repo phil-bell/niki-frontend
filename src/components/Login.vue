@@ -11,10 +11,10 @@
   width: 20%;
 }
 .login__input {
-  height: 20px;
+  height: 30px;
 }
 .login__button {
-  height: 25px;
+  height: 35px;
   display: block;
   background: white;
   border: solid 1px black;

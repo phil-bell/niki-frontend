@@ -8,18 +8,21 @@
 .search__form {
   display: grid;
   grid-gap: 10px;
-  width: 20%;
+  width: 40%;
+  max-width: 450px;
 }
 .search__input {
   height: 20px;
   border-radius: 2px;
+  border: 1px solid black;
+  height: 30px;
 }
 .search__button {
-  height: 25px;
   display: block;
   background: white;
   border: solid 1px black;
   border-radius: 2px;
+  height: 30px;
 }
 .search__text.-error {
   color: red;
@@ -27,10 +30,10 @@
 
 .search__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   grid-auto-rows: 1fr;
   gap: 3rem;
-  width: 80%;
+  width: 70%;
 }
 </style>
 <template>
@@ -54,11 +57,19 @@
 </template>
 <script>
 import SearchCard from "../components/SearchCard.vue";
+import { useLocationStore } from "../stores/location";
+import { useServerStore } from "../stores/server";
 import { useUserStore } from "../stores/user";
 
 export default {
   setup() {
     const userStore = useUserStore();
+    const locationStore = useLocationStore();
+    const serverStore = useServerStore();
+
+    locationStore.fetchLocations();
+    serverStore.fetchServers();
+
     return { userStore };
   },
   data() {
@@ -96,7 +107,6 @@ export default {
       } else {
         this.error = null;
         this.data = await response.json();
-        console.log(this.data);
       }
     },
     submit() {

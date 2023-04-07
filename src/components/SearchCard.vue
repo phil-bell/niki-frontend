@@ -4,7 +4,7 @@
   border-radius: 2px;
   display: grid;
   grid-template-columns: 100%;
-  grid-template-rows: 1fr 1fr;
+  grid-template-rows: auto min-content;
   grid-template-areas:
     "name"
     ".";
@@ -12,23 +12,33 @@
 .card__detail {
   display: grid;
   grid-template-columns: 50% 50%;
-  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-rows: 40px 50px 30px;
   grid-template-areas:
     ". ."
     ". ."
     "button button";
+  align-items: center;
 }
 
 .card__form {
   display: grid;
-  grid-template-rows: 1fr 1fr;
+  grid-template-rows: 40px 50px 30px;
   grid-template-columns: 50% 50%;
   grid-template-areas:
-    "location location"
+    "server-label server"
+    "location-label location"
     "cancel download";
+  align-items: center;
 }
 .card__text {
   padding: 0 15px;
+}
+
+.card__text.-server {
+  grid-area: server-label;
+}
+.card__text.-location {
+  grid-area: location-label;
 }
 .card__text.-name {
   padding: 5px;
@@ -41,13 +51,24 @@
   border: 0;
   border-top: 1px solid;
   border-radius: 0;
+  background: white;
+  height: 30px;
+}
+
+.card__select {
+  margin: 5px;
+  height: 30px;
 }
 
 .card__select.-location {
   grid-area: location;
 }
+.card__select.-server {
+  grid-area: server;
+}
 .card__button.-cancel {
   grid-area: cancel;
+  border-right: 1px solid black;
 }
 .card__button.-download {
   grid-area: download;
@@ -59,11 +80,17 @@
       <strong>{{ name }}</strong>
     </div>
     <form v-if="adding" @submit.prevent="submit" class="card__form">
+      <div class="card__text -server">server:</div>
+      <select v-model="server" class="card__select -server">
+        <option v-for="server in this.serverStore.servers" :value="server.pk">
+          {{ server.name }}
+        </option>
+      </select>
+      <div class="card__text -location">location:</div>
       <select v-model="location" class="card__select -location">
-        <option disabled selected value="">Please choose location</option>
         <option
           v-for="location in this.locationStore.locations"
-          v-bind:value="location.pk"
+          :value="location.pk"
         >
           {{ location.path }}
         </option>
@@ -110,13 +137,12 @@ export default {
     return {
       adding: false,
       location: null,
-      locations: [],
+      server: null,
     };
   },
   methods: {
     async submit() {
       await this.serverStore.fetchServers();
-      console.log(this.serverStore.servers)
       const response = await fetch(
         `${import.meta.env.VITE_NIKI_BACKEND_URL}/api/torrent/`,
         {
@@ -128,7 +154,7 @@ export default {
           },
           body: JSON.stringify({
             magnet: this.magnet,
-            server: this.serverStore.servers[2].pk,
+            server: this.server,
             location: this.location,
           }),
           mode: "cors",
@@ -143,9 +169,6 @@ export default {
     },
     async toggleAdd() {
       this.adding = !this.adding;
-      if (this.adding) {
-        this.locationStore.fetchLocations();
-      }
     },
   },
 };

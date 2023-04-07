@@ -26,7 +26,6 @@ export const useServerStore = defineStore("server", {
       );
       if (response.ok) {
           this.servers = await response.json();
-          console.log(this.servers)
       }
     },
   },
