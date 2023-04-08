@@ -60,6 +60,7 @@ import SearchCard from "../components/SearchCard.vue";
 import { useLocationStore } from "../stores/location";
 import { useServerStore } from "../stores/server";
 import { useUserStore } from "../stores/user";
+import { http } from "../utils";
 
 export default {
   setup() {
@@ -87,27 +88,30 @@ export default {
   },
   methods: {
     async search() {
-      const response = await fetch(
-        `${import.meta.env.VITE_NIKI_BACKEND_URL}/api/search/`,
-        {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            term: this.term,
-          }),
-          mode: "cors",
-        }
-      );
-      if (!response.ok) {
-        this.error = "Theres been an error with your request";
-        this.data = null;
-      } else {
-        this.error = null;
-        this.data = await response.json();
-      }
+      this.data = await http.post("/api/search/", {
+        term: this.term,
+      });
+      // const response = await fetch(
+      //   `${import.meta.env.VITE_NIKI_BACKEND_URL}/api/search/`,
+      //   {
+      //     method: "POST",
+      //     headers: {
+      //       Accept: "application/json",
+      //       "Content-Type": "application/json",
+      //     },
+      //     body: JSON.stringify({
+      //       term: this.term,
+      //     }),
+      //     mode: "cors",
+      //   }
+      // );
+      // if (!response.ok) {
+      //   this.error = "Theres been an error with your request";
+      //   this.data = null;
+      // } else {
+      //   this.error = null;
+      //   this.data = await response.json();
+      // }
     },
     submit() {
       this.$router.push({ query: { term: this.term } });

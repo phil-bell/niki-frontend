@@ -9,7 +9,8 @@
     "name"
     ".";
 }
-.card__detail {
+.card__content {
+  align-items: center;
   display: grid;
   grid-template-columns: 50% 50%;
   grid-template-rows: 40px 50px 30px;
@@ -17,21 +18,29 @@
     ". ."
     ". ."
     "button button";
-  align-items: center;
 }
 
-.card__form {
-  display: grid;
-  grid-template-rows: 40px 50px 30px;
-  grid-template-columns: 50% 50%;
+.card__content.-success {
+  grid-template-areas:
+    ". ."
+    ". ."
+    "success-text success-text";
+}
+
+.card__content.-form {
   grid-template-areas:
     "server-label server"
     "location-label location"
     "cancel download";
-  align-items: center;
 }
 .card__text {
   padding: 0 15px;
+}
+
+.card__text.-success {
+  grid-area: success-text;
+  justify-self: center;
+  margin-bottom: 15px;
 }
 
 .card__text.-server {
@@ -46,13 +55,20 @@
   word-wrap: break-word;
 }
 
-.card__button.-card {
+.card__button {
   grid-area: button;
   border: 0;
   border-top: 1px solid;
   border-radius: 0;
   background: white;
   height: 30px;
+}
+.card__button.-cancel {
+  grid-area: cancel;
+  border-right: 1px solid black;
+}
+.card__button.-download {
+  grid-area: download;
 }
 
 .card__select {
@@ -66,23 +82,27 @@
 .card__select.-server {
   grid-area: server;
 }
-.card__button.-cancel {
-  grid-area: cancel;
-  border-right: 1px solid black;
-}
-.card__button.-download {
-  grid-area: download;
-}
 </style>
 <template>
   <div class="card">
     <div class="card__text -name">
       <strong>{{ name }}</strong>
     </div>
-    <form v-if="adding" @submit.prevent="submit" class="card__form">
+    <div v-if="added" class="card__content -success">
+      <div class="card__text">server:</div>
+      <div class="card__text">{{ this.server.name }}</div>
+      <div class="card__text">location:</div>
+      <div class="card__text">{{ this.location.path}}</div>
+      <div class="card__text -success">successfully added ✅</div>
+    </div>
+    <form
+      v-else-if="adding"
+      @submit.prevent="submit"
+      class="card__content -form"
+    >
       <div class="card__text -server">server:</div>
       <select v-model="server" class="card__select -server">
-        <option v-for="server in this.serverStore.servers" :value="server.pk">
+        <option v-for="server in this.serverStore.servers" :value="server">
           {{ server.name }}
         </option>
       </select>
@@ -90,28 +110,22 @@
       <select v-model="location" class="card__select -location">
         <option
           v-for="location in this.locationStore.locations"
-          :value="location.pk"
+          :value="location"
         >
           {{ location.path }}
         </option>
       </select>
-      <button
-        class="card__button -card -cancel"
-        type="button"
-        @click="toggleAdd"
-      >
+      <button class="card__button -cancel" type="button" @click="toggleAdd">
         cancel
       </button>
-      <button class="card__button -card -download" type="submit">
-        download
-      </button>
+      <button class="card__button -download" type="submit">download</button>
     </form>
-    <div v-else class="card__detail">
+    <div v-else class="card__content">
       <div class="card__text">status:</div>
       <div class="card__text">{{ status }}</div>
       <div class="card__text">seeders:</div>
-      <div class="card__text">{{ seeders }}s</div>
-      <button class="card__button -card" @click="toggleAdd">add</button>
+      <div class="card__text">{{ seeders }}</div>
+      <button class="card__button" @click="toggleAdd">add</button>
     </div>
   </div>
 </template>
@@ -120,6 +134,7 @@
 import { useLocationStore } from "../stores/location";
 import { useServerStore } from "../stores/server";
 import { useUserStore } from "../stores/user";
+import { http } from "../utils";
 export default {
   setup() {
     const userStore = useUserStore();
@@ -136,6 +151,7 @@ export default {
   data() {
     return {
       adding: false,
+      added: false,
       location: null,
       server: null,
     };
@@ -143,28 +159,13 @@ export default {
   methods: {
     async submit() {
       await this.serverStore.fetchServers();
-      const response = await fetch(
-        `${import.meta.env.VITE_NIKI_BACKEND_URL}/api/torrent/`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${this.userStore.access}`,
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            magnet: this.magnet,
-            server: this.server,
-            location: this.location,
-          }),
-          mode: "cors",
-        }
-      );
-      if (!response.ok) {
-        this.error = "Theres been an error with your request";
-      } else {
-        this.error = null;
-        this.data = await response.json();
+      const data = await http.post("/api/torrent/", {
+        magnet: this.magnet,
+        server: this.server?.pk,
+        location: this.location?.pk,
+      });
+      if (data) {
+        this.added = !this.added;
       }
     },
     async toggleAdd() {

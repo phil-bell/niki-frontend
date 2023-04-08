@@ -7,6 +7,7 @@ export const useUserStore = defineStore("users", {
       access: null,
       refresh: null,
       authenticated: false,
+      lastSet: null,
     };
   },
   persist: true,
@@ -16,6 +17,7 @@ export const useUserStore = defineStore("users", {
       this.access = access;
       this.refresh = refresh;
       this.authenticated = true;
+      this.lastSet = Date.now();
     },
     logout() {
       this.username = null;
@@ -56,7 +58,7 @@ export const useUserStore = defineStore("users", {
     },
     async refreshUser() {
       const response = await fetch(
-        `${import.meta.env.VITE_NIKI_BACKEND_URL}api/refresh/`,
+        `${import.meta.env.VITE_NIKI_BACKEND_URL}/api/token/refresh/`,
         {
           method: "POST",
           headers: {
@@ -64,6 +66,7 @@ export const useUserStore = defineStore("users", {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
+            access: this.access,
             refresh: this.refresh,
           }),
           mode: "cors",
@@ -77,10 +80,9 @@ export const useUserStore = defineStore("users", {
           (this.authenticated = false);
       }
 
-      const data = response.json();
-
-      this.access = data.access;
-      this.authenticated = true;
+      const data = await response.json();
+      console.log(data);
+      this.setUser(this.username, data.access, this.refresh);
     },
   },
 });
