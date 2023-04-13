@@ -2,6 +2,8 @@ FROM node:19-alpine as build
 
 WORKDIR /server/
 
+ENV VITE_NIKI_BACKEND_URL=https://starfish-app-hxdcr.ondigitalocean.app/
+
 COPY package-lock.json package.json /server/
 
 RUN npm install
