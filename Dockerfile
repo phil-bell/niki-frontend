@@ -6,15 +6,19 @@ ENV VITE_NIKI_BACKEND_URL=https://starfish-app-hxdcr.ondigitalocean.app
 
 COPY package-lock.json package.json /server/
 
+FROM build as dev
+
 RUN npm install
 
 COPY . /server/
 
-FROM build as dev
-
 CMD ["npm", "run", "dev"]
 
 FROM build as prod
+
+RUN npm ci
+
+COPY . /server/
 
 RUN npm run build
 
