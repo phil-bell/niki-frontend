@@ -13,15 +13,15 @@
 }
 .search__input {
   height: 20px;
-  border-radius: 2px;
-  border: 1px solid black;
+  border-radius: 3px;
+  border: solid 1px black;
   height: 30px;
 }
 .search__button {
   display: block;
   background: white;
   border: solid 1px black;
-  border-radius: 2px;
+  border-radius: 3px;
   height: 30px;
 }
 .search__text.-error {
@@ -30,10 +30,11 @@
 
 .search__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, 300px);
   grid-auto-rows: 1fr;
   gap: 3rem;
-  width: 70%;
+  width: 100%;
+  justify-content: center;
 }
 </style>
 <template>
@@ -88,30 +89,12 @@ export default {
   },
   methods: {
     async search() {
-      this.data = await http.post("/api/search/", {
+      this.data = null;
+      const response = await http.post("/api/search/", {
         term: this.term,
       });
-      // const response = await fetch(
-      //   `${import.meta.env.VITE_NIKI_BACKEND_URL}/api/search/`,
-      //   {
-      //     method: "POST",
-      //     headers: {
-      //       Accept: "application/json",
-      //       "Content-Type": "application/json",
-      //     },
-      //     body: JSON.stringify({
-      //       term: this.term,
-      //     }),
-      //     mode: "cors",
-      //   }
-      // );
-      // if (!response.ok) {
-      //   this.error = "Theres been an error with your request";
-      //   this.data = null;
-      // } else {
-      //   this.error = null;
-      //   this.data = await response.json();
-      // }
+
+      this.data = await response.json();
     },
     submit() {
       this.$router.push({ query: { term: this.term } });

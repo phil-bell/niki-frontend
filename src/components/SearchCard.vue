@@ -1,7 +1,7 @@
 <style scoped>
 .card {
-  border: 1px solid;
-  border-radius: 2px;
+  border: solid 1px black;
+  border-radius: 3px;
   display: grid;
   grid-template-columns: 100%;
   grid-template-rows: auto min-content;
@@ -59,13 +59,15 @@
   grid-area: button;
   border: 0;
   border-top: 1px solid;
-  border-radius: 0;
+  border-radius: 0 0 3px 3px;
   background: white;
   height: 30px;
 }
 .card__button.-cancel {
   grid-area: cancel;
   border-right: 1px solid black;
+  border-radius: 0 0 0 3px;
+
 }
 .card__button.-download {
   grid-area: download;
@@ -86,13 +88,13 @@
 <template>
   <div class="card">
     <div class="card__text -name">
-      <strong>{{ name }}</strong>
+      <strong>{{ name.replaceAll(".", " ") }}</strong>
     </div>
     <div v-if="added" class="card__content -success">
       <div class="card__text">server:</div>
       <div class="card__text">{{ this.server.name }}</div>
       <div class="card__text">location:</div>
-      <div class="card__text">{{ this.location.path}}</div>
+      <div class="card__text">{{ this.location.path }}</div>
       <div class="card__text -success">successfully added ✅</div>
     </div>
     <form
@@ -159,11 +161,13 @@ export default {
   methods: {
     async submit() {
       await this.serverStore.fetchServers();
-      const data = await http.post("/api/torrent/", {
+      const response = await http.post("/api/torrent/", {
         magnet: this.magnet,
         server: this.server?.pk,
         location: this.location?.pk,
       });
+
+      const data = await response.json();
       if (data) {
         this.added = !this.added;
       }

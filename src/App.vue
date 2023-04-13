@@ -9,16 +9,16 @@ const userStore = useUserStore();
   <header>
     <div class="wrapper">
       <nav>
-        <RouterLink v-if="!userStore.authenticated" to="/">Login</RouterLink>
-        <a v-else @click="userStore.logout" href="#">Logout</a>
+        <RouterLink v-if="!userStore.authenticated" to="/">login</RouterLink>
+        <a v-else @click="userStore.logout" href="#">logout</a>
         <span v-show="userStore.authenticated"> - </span>
         <RouterLink v-show="userStore.authenticated" to="/search/"
-          >Search</RouterLink
+          >search</RouterLink
         >
-        <span v-show="userStore.authenticated"> - </span>
-        <RouterLink v-show="userStore.authenticated" to="/servers/"
-          >Servers</RouterLink
-        >
+        <!-- <span v-show="userStore.authenticated"> - </span> -->
+        <!-- <RouterLink v-show="userStore.authenticated" to="/servers/"
+          >servers</RouterLink
+        > -->
       </nav>
     </div>
   </header>

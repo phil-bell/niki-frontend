@@ -18,7 +18,7 @@
   display: block;
   background: white;
   border: solid 1px black;
-  border-radius: 2px;
+  border-radius: 3px;
 }
 .login__label {
   display: block;
@@ -62,35 +62,24 @@ export default {
     };
   },
   methods: {
-    async submit() {
-      const response = await fetch(
-        `${import.meta.env.VITE_NIKI_BACKEND_URL}/api/token/`,
-        {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            username: this.form.username,
-            password: this.form.password,
-          }),
-          mode: "cors",
-        }
-      );
-      if (!response.ok) {
-        switch (response.status) {
-          case 400:
-            this.error = "Incorrect username or poassword";
-            break;
-          default:
-            this.error = "Theres been an error with your request";
-        }
-      } else {
-        const data = await response.json();
-        this.userStore.setUser(this.form.username, data.access, data.refresh);
-        this.$router.push("/search");
+    responseStatusHandler(status) {
+      switch (status) {
+        case 400:
+          alert("incorrect username or password");
+          break;
+        case 401:
+          alert("unautharised request");
+          break;
+        case 500:
+          alert("server error");
+          break;
+        default:
+          alert(response.status);
       }
+    },
+    async submit() {
+
+      this.userStore.login(this.form.username, this.form.password);
     },
   },
 };

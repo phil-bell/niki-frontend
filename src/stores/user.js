@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import router from "../router/index";
+import { http } from "../utils";
 export const useUserStore = defineStore("users", {
   state: () => {
     return {
@@ -26,62 +27,53 @@ export const useUserStore = defineStore("users", {
       this.authenticated = false;
       router.push("/login");
     },
+    responseStatusHandler(status) {
+      switch (status) {
+        case 400:
+          alert("incorrect username or password");
+          break;
+        case 401:
+          alert("unautharised request");
+          break;
+        case 500:
+          alert("server error");
+          break;
+        default:
+          alert(response.status);
+      }
+    },
     async login(username, password) {
-      const response = await fetch(
-        `${import.meta.env.VITE_NIKI_BACKEND_URL}/api/token/`,
+      const response = await http.post(
+        "/api/token/",
         {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            username: username,
-            password: password,
-          }),
-          mode: "cors",
-        }
+          username: username,
+          password: password,
+        },
+        false,
+        this.responseStatusHandler
       );
-      if (!response.ok) {
-        switch (response.status) {
-          case 400:
-            this.error = "Incorrect username or poassword";
-            break;
-          default:
-            this.error = "Theres been an error with your request";
-        }
-      } else {
+      if (response.status == 200) {
         const data = await response.json();
+
         this.setUser(username, data.access, data.refresh);
-        this.$router.push("/search");
+        router.push("/search");
       }
     },
     async refreshUser() {
-      const response = await fetch(
-        `${import.meta.env.VITE_NIKI_BACKEND_URL}/api/token/refresh/`,
+      const response = await http.post(
+        "/api/token/refresh/",
         {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            access: this.access,
-            refresh: this.refresh,
-          }),
-          mode: "cors",
-        }
+          access: this.access,
+          refresh: this.refresh,
+        },
+        false
       );
 
       if (!response.ok) {
-        (this.username = null),
-          (this.access = null),
-          (this.refresh = null),
-          (this.authenticated = false);
+        this.logout();
       }
 
       const data = await response.json();
-      console.log(data);
       this.setUser(this.username, data.access, this.refresh);
     },
   },
