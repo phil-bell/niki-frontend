@@ -8,11 +8,11 @@ COPY package-lock.json package.json /server/
 
 FROM build as dev
 
-RUN npm install
+# RUN npm install
 
-COPY . /server/
+# COPY . /server/
 
-CMD ["npm", "run", "dev"]
+# CMD ["npm", "run", "dev"]
 
 FROM build as prod
 
