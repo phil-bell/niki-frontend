@@ -33,7 +33,7 @@
   grid-template-columns: repeat(auto-fill, 300px);
   grid-auto-rows: 1fr;
   gap: 3rem;
-  width: 100%;
+  width: 90%;
   justify-content: center;
 }
 </style>
