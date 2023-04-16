@@ -9,7 +9,9 @@ const userStore = useUserStore();
   <header>
     <div class="wrapper">
       <nav>
-        <RouterLink v-if="!userStore.authenticated" to="/">login</RouterLink>
+        <RouterLink v-if="!userStore.authenticated" class="nav__link" to="/"
+          >login</RouterLink
+        >
         <a v-else @click="userStore.logout" class="nav__link" href="#"
           >logout</a
         >
@@ -37,5 +39,11 @@ const userStore = useUserStore();
 }
 .nav__link:visited {
   color: black;
+}
+.nav__link:hover {
+  font-weight: 700;
+}
+.nav__link:active {
+  color: rgb(126, 126, 126);
 }
 </style>

@@ -1,4 +1,4 @@
-<style scoped>
+<style>
 .login {
   align-items: center;
   display: grid;
@@ -12,6 +12,14 @@
 }
 .login__input {
   height: 30px;
+}
+.login__input:focus {
+  height: 30px;
+  border-radius: 3px;
+}
+.login__input:hover {
+  height: 30px;
+  border-radius: 3px;
 }
 .login__button {
   height: 35px;
@@ -78,7 +86,6 @@ export default {
       }
     },
     async submit() {
-
       this.userStore.login(this.form.username, this.form.password);
     },
   },

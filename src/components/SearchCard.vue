@@ -1,4 +1,4 @@
-<style scoped>
+<style>
 .card {
   border: solid 1px black;
   border-radius: 3px;
@@ -8,6 +8,13 @@
   grid-template-areas:
     "name"
     ".";
+  height: 188px;
+  width: 300px;
+}
+.card:hover {
+  border: solid 2px black;
+  height: 186px;
+  width: 298px;
 }
 .card__content {
   align-items: center;
@@ -63,13 +70,24 @@
   background: white;
   height: 30px;
 }
+.card__button:hover {
+  border: 0;
+  border-top: solid 2px black;
+}
 .card__button.-cancel {
   grid-area: cancel;
   border-right: 1px solid black;
   border-radius: 0 0 0 3px;
 }
+.card__button.-cancel:hover {
+  border-right: solid 2px black;
+}
 .card__button.-download {
   grid-area: download;
+  border-radius: 0 0 3px 0;
+}
+.card__button.-download:hover {
+  border-left: solid 1px black;
 }
 
 .card__select {
