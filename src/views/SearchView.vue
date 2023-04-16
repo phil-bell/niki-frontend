@@ -32,7 +32,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, 300px);
   grid-auto-rows: 1fr;
-  gap: 3rem;
+  gap: 2rem;
   width: 90%;
   justify-content: center;
 }
