@@ -67,7 +67,6 @@
   grid-area: cancel;
   border-right: 1px solid black;
   border-radius: 0 0 0 3px;
-
 }
 .card__button.-download {
   grid-area: download;
@@ -160,7 +159,6 @@ export default {
   },
   methods: {
     async submit() {
-      await this.serverStore.fetchServers();
       const response = await http.post("/api/torrent/", {
         magnet: this.magnet,
         server: this.server?.pk,

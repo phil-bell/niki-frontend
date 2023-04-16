@@ -7,7 +7,6 @@ export const useServerStore = defineStore("server", {
       servers: null,
     };
   },
-  persist: true,
   actions: {
     async fetchServers() {
       const response = await http.get("/api/server/");

@@ -7,11 +7,10 @@ export const useLocationStore = defineStore("locations", {
       locations: null,
     };
   },
-  persist: true,
   actions: {
     async fetchLocations() {
-      const response =  await http.get("/api/location/")
-      this.servers = await response.json();
+      const response = await http.get("/api/location/");
+      this.locations = await response.json();
     },
   },
 });
