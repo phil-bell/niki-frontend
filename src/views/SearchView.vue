@@ -48,10 +48,7 @@
     <div v-if="data" class="search__grid">
       <SearchCard
         v-for="torrent in data"
-        :name="torrent.name"
-        :status="torrent.status"
-        :seeders="torrent.seeders"
-        :magnet="torrent.magnet"
+        :torrent="torrent"
       />
     </div>
   </main>

@@ -105,7 +105,7 @@
 <template>
   <div class="card">
     <div class="card__text -name">
-      <strong>{{ name.replaceAll(".", " ") }}</strong>
+      <strong>{{ torrent.name.replaceAll(".", " ") }}</strong>
     </div>
     <div v-if="added" class="card__content -success">
       <div class="card__text">server:</div>
@@ -140,10 +140,10 @@
       <button class="card__button -download" type="submit">download</button>
     </form>
     <div v-else class="card__content">
-      <div class="card__text">status:</div>
-      <div class="card__text">{{ status }}</div>
+      <div class="card__text">size:</div>
+      <div class="card__text">{{ this.size() }}</div>
       <div class="card__text">seeders:</div>
-      <div class="card__text">{{ seeders }}</div>
+      <div class="card__text">{{ torrent.seeders }}</div>
       <button class="card__button" @click="toggleAdd">add</button>
     </div>
   </div>
@@ -162,10 +162,7 @@ export default {
     return { locationStore, userStore, serverStore };
   },
   props: {
-    name: String,
-    status: String,
-    seeders: String,
-    magnet: String,
+    torrent: Object,
   },
   data() {
     return {
@@ -178,7 +175,7 @@ export default {
   methods: {
     async submit() {
       const response = await http.post("/api/torrent/", {
-        magnet: this.magnet,
+        magnet: this.torrent.magnet,
         server: this.server?.pk,
         location: this.location?.pk,
       });
@@ -189,6 +186,25 @@ export default {
     },
     async toggleAdd() {
       this.adding = !this.adding;
+    },
+    size() {
+      const sizes = [
+        "Bytes",
+        "KiB",
+        "MiB",
+        "GiB",
+        "TiB",
+        "PiB",
+        "EiB",
+        "ZiB",
+        "YiB",
+      ];
+
+      const i = Math.floor(Math.log(this.torrent.size) / Math.log(1024));
+
+      return `${parseFloat((this.torrent.size / Math.pow(1024, i)).toFixed(2))} ${
+        sizes[i]
+      }`;
     },
   },
 };
