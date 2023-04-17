@@ -2,8 +2,13 @@
 .search {
   align-content: start;
   display: grid;
-  height: 90%;
+  height: 80%;
   justify-items: center;
+  align-content: center;
+}
+.search.-searched{
+  align-content: start;
+  height: 90%;
 }
 .search__form {
   display: grid;
@@ -38,7 +43,7 @@
 }
 </style>
 <template>
-  <main class="search">
+  <main class="search" :class="{ '-searched': this.data}">
     <form @submit.prevent="submit" class="search__form">
       <lable> search: </lable>
       <input v-model="term" class="search__input" />
