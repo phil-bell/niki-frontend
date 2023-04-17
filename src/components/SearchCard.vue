@@ -183,8 +183,7 @@ export default {
         location: this.location?.pk,
       });
 
-      const data = await response.json();
-      if (data) {
+      if (response.ok) {
         this.added = !this.added;
       }
     },
