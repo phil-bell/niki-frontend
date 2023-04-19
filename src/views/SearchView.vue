@@ -6,7 +6,7 @@
   justify-items: center;
   align-content: center;
 }
-.search.-searched{
+.search.-searched {
   align-content: start;
   height: 90%;
 }
@@ -43,7 +43,7 @@
 }
 </style>
 <template>
-  <main class="search" :class="{ '-searched': this.data}">
+  <main class="search" :class="{ '-searched': this.data }">
     <form @submit.prevent="submit" class="search__form">
       <lable> search: </lable>
       <input v-model="term" class="search__input" />
@@ -51,16 +51,14 @@
       <p class="search__text -error">{{ error }}</p>
     </form>
     <div v-if="data" class="search__grid">
-      <SearchCard
-        v-for="torrent in data"
-        :torrent="torrent"
-      />
+      <SearchCard v-for="torrent in data" :torrent="torrent" />
     </div>
   </main>
 </template>
 <script>
 import SearchCard from "../components/SearchCard.vue";
 import { useLocationStore } from "../stores/location";
+import { useProgressStore } from "../stores/progress";
 import { useServerStore } from "../stores/server";
 import { useUserStore } from "../stores/user";
 import { http } from "../utils";
@@ -70,11 +68,12 @@ export default {
     const userStore = useUserStore();
     const locationStore = useLocationStore();
     const serverStore = useServerStore();
+    const progressStore = useProgressStore();
 
     locationStore.fetchLocations();
     serverStore.fetchServers();
 
-    return { userStore };
+    return { userStore, progressStore };
   },
   data() {
     return {
@@ -91,12 +90,13 @@ export default {
   },
   methods: {
     async search() {
-      this.data = null;
+      this.progressStore.startLoading();
       const response = await http.post("/api/search/", {
         term: this.term,
       });
 
       this.data = await response.json();
+      this.progressStore.completeLoading();
     },
     submit() {
       this.$router.push({ query: { term: this.term } });

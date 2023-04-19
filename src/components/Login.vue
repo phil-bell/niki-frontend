@@ -54,11 +54,14 @@
 </template>
 
 <script>
+import { useProgressStore } from "../stores/progress";
 import { useUserStore } from "../stores/user";
+
 export default {
   setup() {
     const userStore = useUserStore();
-    return { userStore };
+    const progressStore = useProgressStore();
+    return { userStore, progressStore };
   },
   data() {
     return {
@@ -86,7 +89,9 @@ export default {
       }
     },
     async submit() {
-      this.userStore.login(this.form.username, this.form.password);
+      this.progressStore.startLoading();
+      await this.userStore.login(this.form.username, this.form.password);
+      this.progressStore.completeLoading();
     },
   },
 };
