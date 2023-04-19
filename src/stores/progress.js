@@ -9,23 +9,24 @@ export const useProgressStore = defineStore("progress", {
     };
   },
   actions: {
-    startLoading() {
-      this.progress = "70%";
-      this.handTimeout = setTimeout(() => this.hangLoading(), 2000);
-    },
-    hangLoading() {
+    _hangLoading() {
       this.transition = "all 10s ease";
       this.progress = "80%";
+    },
+    _resetLoading() {
+      this.progress = "0%";
+      this.transition = "";
+    },
+    startLoading() {
+      this.transition = "all 2s ease";
+      this.progress = "70%";
+      this.handTimeout = setTimeout(() => this._hangLoading(), 2000);
     },
     completeLoading() {
       clearTimeout(this.handTimeout);
       this.transition = "all .5s ease-in";
       this.progress = "100%";
-      setTimeout(() => this.resetLoading(), 700);
-    },
-    resetLoading() {
-      this.progress = "0%";
-      this.transition = "";
+      setTimeout(() => this._resetLoading(), 700);
     },
   },
 });
