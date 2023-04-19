@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from "vue-router";
+import LoadingBar from "./components/LoadingBar.vue";
 import { useUserStore } from "./stores/user";
 
 const userStore = useUserStore();
 </script>
 
 <template>
+  <LoadingBar />
   <header>
     <div class="wrapper">
       <nav>
