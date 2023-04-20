@@ -61,7 +61,7 @@ import { useLocationStore } from "../stores/location";
 import { useProgressStore } from "../stores/progress";
 import { useServerStore } from "../stores/server";
 import { useUserStore } from "../stores/user";
-import { http } from "../utils";
+import { http, sleep } from "../utils";
 
 export default {
   setup() {
@@ -85,6 +85,7 @@ export default {
   async mounted() {
     if (this.$route.query.term) {
       this.term = this.$route.query.term;
+      await sleep(1);
       this.search();
     }
   },

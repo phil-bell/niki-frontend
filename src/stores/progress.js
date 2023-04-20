@@ -14,8 +14,8 @@ export const useProgressStore = defineStore("progress", {
       this.progress = "80%";
     },
     _resetLoading() {
-      this.progress = "0%";
       this.transition = "";
+      this.progress = "0%";
     },
     startLoading() {
       this.transition = "all 2s ease";

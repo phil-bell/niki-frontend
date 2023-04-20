@@ -55,3 +55,5 @@ export const http = {
   patch: (url, body, auth = true, responseStatusHandler = defaultResponseStatusHandler) => nikiFetch(url, "PATCH", auth, body, responseStatusHandler),
   delete: (url, body, auth = true, responseStatusHandler = defaultResponseStatusHandler) => nikiFetch(url, "DELETE", auth, body, responseStatusHandler),
 };
+
+export const sleep = (m) => new Promise((r) => setTimeout(r, m));
