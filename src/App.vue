@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from "vue-router";
-import LoadingBar from "./components/LoadingBar.vue";
+import ProgressBar from "./components/ProgressBar.vue";
 import { useUserStore } from "./stores/user";
 
 const userStore = useUserStore();
 </script>
 
 <template>
-  <LoadingBar />
+  <ProgressBar />
   <header>
     <div class="wrapper">
       <nav>
