@@ -55,13 +55,16 @@
 
 <script>
 import { useProgressStore } from "../stores/progress";
+import { useToastStore } from "../stores/toast";
 import { useUserStore } from "../stores/user";
 
 export default {
   setup() {
     const userStore = useUserStore();
     const progressStore = useProgressStore();
-    return { userStore, progressStore };
+    const toastStore = useToastStore();
+
+    return { userStore, progressStore, toastStore };
   },
   data() {
     return {
@@ -76,16 +79,16 @@ export default {
     responseStatusHandler(status) {
       switch (status) {
         case 400:
-          alert("incorrect username or password");
+          this.toastStore.show("incorrect username or password");
           break;
         case 401:
-          alert("unautharised request");
+          this.toastStore.show("unautharised request");
           break;
         case 500:
-          alert("server error");
+          this.toastStore.show("server error");
           break;
         default:
-          alert(response.status);
+          this.toastStore.show(response.status);
       }
     },
     async submit() {

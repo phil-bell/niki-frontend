@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from "vue-router";
 import ProgressBar from "./components/ProgressBar.vue";
+import Toast from "./components/Toast.vue";
 import { useUserStore } from "./stores/user";
 
 const userStore = useUserStore();
@@ -8,6 +9,7 @@ const userStore = useUserStore();
 
 <template>
   <ProgressBar />
+  <Toast />
   <header>
     <div class="wrapper">
       <nav>

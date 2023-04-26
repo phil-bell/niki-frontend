@@ -1,18 +1,20 @@
+import { useToastStore } from "./stores/toast";
 import { useUserStore } from "./stores/user";
 
 const defaultResponseStatusHandler = (status) => {
+  const toastStore = useToastStore();
   switch (status) {
     case 400:
-      alert("invalid form");
+      toastStore.show("invalid form");
       break;
     case 401:
-      alert("unautharised request");
+      toastStore.show("unautharised request");
       break;
     case 500:
-      alert("server error");
+      toastStore.show("server error");
       break;
     default:
-      alert(response.status);
+      toastStore.show(response.status);
   }
 };
 

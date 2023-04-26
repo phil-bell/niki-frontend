@@ -1,6 +1,8 @@
 import { defineStore } from "pinia";
 import router from "../router/index";
 import { http } from "../utils";
+import { useToastStore } from "./toast";
+
 export const useUserStore = defineStore("users", {
   state: () => {
     return {
@@ -28,18 +30,19 @@ export const useUserStore = defineStore("users", {
       router.push("/login");
     },
     responseStatusHandler(status) {
+      const toastStore = useToastStore();
       switch (status) {
         case 400:
-          alert("incorrect username or password");
+          toastStore.show("incorrect username or password");
           break;
         case 401:
-          alert("unautharised request");
+          toastStore.show("unautharised request");
           break;
         case 500:
-          alert("server error");
+          toastStore.show("server error");
           break;
         default:
-          alert(response.status);
+          toastStore.show(response.status);
       }
     },
     async login(username, password) {
