@@ -12,13 +12,15 @@
 }
 .login__input {
   height: 30px;
+  border: solid 1px black;
+  border-radius: 3px;
 }
 .login__input:focus {
-  height: 30px;
+  height: 28px;
   border-radius: 3px;
 }
 .login__input:hover {
-  height: 30px;
+  height: 28px;
   border-radius: 3px;
 }
 .login__button {
@@ -27,12 +29,18 @@
   background: white;
   border: solid 1px black;
   border-radius: 3px;
+  color: black;
 }
 .login__label {
   display: block;
 }
 .login__text.-error {
   color: red;
+}
+@media only screen and (max-width: 768px) {
+  .login__form{
+    width: 80%;
+  }
 }
 </style>
 

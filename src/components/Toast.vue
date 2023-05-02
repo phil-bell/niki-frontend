@@ -9,6 +9,7 @@
   min-height: 50px;
   display: grid;
   justify-content: center;
+  align-items: center;
   transition: all 0.5s ease;
   padding: 10px;
 }

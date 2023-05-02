@@ -12,7 +12,7 @@ const userStore = useUserStore();
   <Toast />
   <header>
     <div class="wrapper">
-      <nav>
+      <nav class="nav">
         <RouterLink v-if="!userStore.authenticated" class="nav__link" to="/"
           >login</RouterLink
         >
@@ -38,6 +38,13 @@ const userStore = useUserStore();
 </template>
 
 <style scoped>
+.nav {
+  display: grid;
+  grid-auto-flow: column;
+  grid-gap: 10px;
+  margin-bottom: 15px;
+  justify-content: start;
+}
 .nav__link {
   color: black;
 }
@@ -49,5 +56,10 @@ const userStore = useUserStore();
 }
 .nav__link:active {
   color: rgb(126, 126, 126);
+}
+@media only screen and (max-width: 768px) {
+  .nav {
+    justify-content: center;
+  }
 }
 </style>

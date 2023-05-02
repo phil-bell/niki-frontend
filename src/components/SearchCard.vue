@@ -101,6 +101,14 @@
 .card__select.-server {
   grid-area: server;
 }
+@media only screen and (max-width: 768px) {
+  .card {
+    width: 100%;
+  }
+  .card:hover {
+    width: calc(100% - 2px);
+  }
+}
 </style>
 <template>
   <div class="card">
@@ -202,9 +210,9 @@ export default {
 
       const i = Math.floor(Math.log(this.torrent.size) / Math.log(1024));
 
-      return `${parseFloat((this.torrent.size / Math.pow(1024, i)).toFixed(2))} ${
-        sizes[i]
-      }`;
+      return `${parseFloat(
+        (this.torrent.size / Math.pow(1024, i)).toFixed(2)
+      )} ${sizes[i]}`;
     },
   },
 };

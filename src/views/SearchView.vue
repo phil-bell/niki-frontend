@@ -28,6 +28,8 @@
   border: solid 1px black;
   border-radius: 3px;
   height: 30px;
+  color: black;
+  margin-top: 4px;
 }
 .search__text.-error {
   color: red;
@@ -40,6 +42,14 @@
   gap: 2rem;
   width: 90%;
   justify-content: center;
+}
+@media only screen and (max-width: 768px) {
+  .search__form {
+    width: 80%;
+  }
+  .search__grid {
+    grid-template-columns: repeat(auto-fill, 90%);
+  }
 }
 </style>
 <template>
