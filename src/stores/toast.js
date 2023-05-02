@@ -3,18 +3,18 @@ import { defineStore } from "pinia";
 export const useToastStore = defineStore("toast", {
   state: () => {
     return {
-      right: "-290px",
+      top: "-100px",
       message: "",
     };
   },
   actions: {
     show(message) {
       this.message = message;
-      this.right = "10px";
+      this.top = "10px";
       setTimeout(() => this.hide(), 2000);
     },
     hide() {
-      this.right = "-290px";
+      this.top = "-290px";
     },
   },
 });

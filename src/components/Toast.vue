@@ -3,15 +3,16 @@
   position: absolute;
   border: solid 1px black;
   border-radius: 3px;
-  right: v-bind(right);
-  top: 10px;
+  right: 10px;
+  top: v-bind(top);
   width: 250px;
   min-height: 50px;
-  display: grid;
   justify-content: center;
   align-items: center;
   transition: all 0.5s ease;
   padding: 10px;
+  display: grid;
+  background: white;
 }
 </style>
 <template>
@@ -28,10 +29,11 @@ export default {
     return { toastStore };
   },
   data() {
-    const { right, message } = storeToRefs(this.toastStore);
+    const { top, message, display } = storeToRefs(this.toastStore);
     return {
-      right: right,
+      top: top,
       message: message,
+      display: display,
     };
   },
 };
