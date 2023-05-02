@@ -23,6 +23,7 @@ button:active {
 input {
   font-family: "Courier New", monospace;
   font-weight: 700;
+  padding: 0 8px;
 }
 input:focus {
   outline-width: 0;
@@ -33,6 +34,12 @@ input:focus {
 input:hover {
   border: solid 2px black;
   height: 28px;
+}
+select {
+  font-family: "Courier New", monospace;
+  padding: 0 8px;
+  appearance: none;
+
 }
 select:hover {
   border: solid 2px black;

@@ -69,6 +69,7 @@
   border-radius: 0 0 3px 3px;
   background: white;
   height: 30px;
+  color: black;
 }
 .card__button:hover {
   border: 0;
@@ -93,6 +94,8 @@
 .card__select {
   margin: 5px;
   height: 30px;
+  background: white;
+  color: black;
 }
 
 .card__select.-location {
