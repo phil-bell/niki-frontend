@@ -16,7 +16,6 @@
 .card:hover {
   margin: 0;
   border: solid 2px black;
-
 }
 .card__content {
   align-items: center;
@@ -33,7 +32,7 @@
   grid-template-areas:
     ". ."
     ". ."
-    "success-text success-text";
+    "button button";
 }
 
 .card__content.-form {
@@ -107,10 +106,11 @@
     </div>
     <div v-if="added" class="card__content -success">
       <div class="card__text">server:</div>
-      <div class="card__text">{{ this.server.name }}</div>
+      <div class="card__text">{{ this.server?.name }}</div>
       <div class="card__text">location:</div>
-      <div class="card__text">{{ this.location.path }}</div>
-      <div class="card__text -success">successfully added ✅</div>
+      <div class="card__text">{{ this.location?.path }}</div>
+      <!-- <div class="card__text">{{ this.location?.path }}</div> -->
+      <button class="card__button">view progress (coming soon)</button>
     </div>
     <form
       v-else-if="adding"
@@ -150,6 +150,7 @@
 <script>
 import { useLocationStore } from "../stores/location";
 import { useServerStore } from "../stores/server";
+import { useToastStore } from "../stores/toast";
 import { useUserStore } from "../stores/user";
 import { http } from "../utils";
 export default {
@@ -157,7 +158,8 @@ export default {
     const userStore = useUserStore();
     const locationStore = useLocationStore();
     const serverStore = useServerStore();
-    return { locationStore, userStore, serverStore };
+    const toastStore = useToastStore();
+    return { locationStore, userStore, serverStore, toastStore };
   },
   props: {
     torrent: Object,
@@ -165,7 +167,7 @@ export default {
   data() {
     return {
       adding: false,
-      added: false,
+      added: true,
       location: null,
       server: null,
     };
@@ -179,6 +181,7 @@ export default {
       });
 
       if (response.ok) {
+        this.toastStore.show("successfully added");
         this.added = !this.added;
       }
     },
