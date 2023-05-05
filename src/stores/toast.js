@@ -10,7 +10,7 @@ export const useToastStore = defineStore("toast", {
   actions: {
     show(message) {
       this.message = message;
-      this.top = "10px";
+      this.top = "38px";
       setTimeout(() => this.hide(), 2000);
     },
     hide() {

@@ -1,18 +1,18 @@
 <style>
 .toast {
-  position: absolute;
-  border: solid 1px black;
+  align-items: center;
+  background: black;
   border-radius: 3px;
+  color: white;
+  display: grid;
+  justify-content: center;
+  min-height: 50px;
+  padding: 10px;
+  position: absolute;
   right: 10px;
   top: v-bind(top);
-  width: 250px;
-  min-height: 50px;
-  justify-content: center;
-  align-items: center;
   transition: all 0.5s ease;
-  padding: 10px;
-  display: grid;
-  background: white;
+  width: 250px;
 }
 </style>
 <template>
