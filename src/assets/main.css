@@ -5,6 +5,7 @@ html {
   height: 100%;
 }
 body {
+  margin: 0;
   height: 100%;
 }
 #app {
@@ -13,27 +14,37 @@ body {
 button {
   font-family: "Courier New", monospace;
   font-weight: 700;
+  background: black;
+  color: white;
+  border: solid 1px black;
+  border-radius: 3px;
+  height: 30px;
 }
 button:hover {
-  border: solid 2px black;
+  opacity: 0.8;
 }
 button:active {
-  background: rgb(239, 238, 238);
+  opacity: 0.6;
 }
 input {
   font-family: "Courier New", monospace;
   font-weight: 700;
   padding: 0 8px;
+  height: 30px;
+  border: solid 1px black;
+  border-radius: 3px;
+  margin: 1px;
+  outline: none;
 }
 input:focus {
   outline-width: 0;
   border: solid 2px black;
-  height: 28px;
+  margin: 0;
 }
 
 input:hover {
+  margin: 0;
   border: solid 2px black;
-  height: 28px;
 }
 select {
   font-family: "Courier New", monospace;
@@ -41,6 +52,9 @@ select {
   border: solid 1px black;
   border-radius: 3px;
   appearance: none;
+  color: black;
+  background: white;
+  height: 30px;
 }
 select:hover {
   border: solid 2px black;

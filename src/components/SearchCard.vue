@@ -10,11 +10,13 @@
     ".";
   height: 188px;
   width: 300px;
+  background: white;
+  margin: 1px;
 }
 .card:hover {
+  margin: 0;
   border: solid 2px black;
-  height: 186px;
-  width: 298px;
+
 }
 .card__content {
   align-items: center;
@@ -41,6 +43,7 @@
     "cancel download";
 }
 .card__text {
+  color: black;
   padding: 0 15px;
 }
 
@@ -64,38 +67,25 @@
 
 .card__button {
   grid-area: button;
-  border: 0;
-  border-top: 1px solid;
-  border-radius: 0 0 3px 3px;
-  background: white;
+  border-radius: 0;
+  background: black;
   height: 30px;
-  color: black;
+  color: white;
 }
-.card__button:hover {
-  border: 0;
-  border-top: solid 2px black;
-}
+
 .card__button.-cancel {
   grid-area: cancel;
-  border-right: 1px solid black;
-  border-radius: 0 0 0 3px;
+  border-right: 1px solid white;
+  border-radius: 0;
 }
-.card__button.-cancel:hover {
-  border-right: solid 2px black;
-}
+
 .card__button.-download {
   grid-area: download;
-  border-radius: 0 0 3px 0;
-}
-.card__button.-download:hover {
-  border-left: solid 1px black;
+  border-radius: 0;
 }
 
 .card__select {
   margin: 5px;
-  height: 30px;
-  background: white;
-  color: black;
 }
 
 .card__select.-location {
@@ -107,9 +97,6 @@
 @media only screen and (max-width: 768px) {
   .card {
     width: 100%;
-  }
-  .card:hover {
-    width: calc(100% - 2px);
   }
 }
 </style>

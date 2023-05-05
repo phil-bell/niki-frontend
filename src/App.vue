@@ -1,11 +1,34 @@
-<script setup lang="ts">
-import { RouterLink, RouterView } from "vue-router";
-import ProgressBar from "./components/ProgressBar.vue";
-import Toast from "./components/Toast.vue";
-import { useUserStore } from "./stores/user";
 
-const userStore = useUserStore();
-</script>
+<style scoped>
+.nav {
+  display: grid;
+  grid-auto-flow: column;
+  grid-gap: 10px;
+  margin-bottom: 15px;
+  justify-content: start;
+  background: black;
+  width: 100%;
+  padding: 5px;
+}
+.nav__link {
+  color: white;
+  text-decoration: none
+}
+.nav__link:visited {
+  color: white;
+}
+.nav__link:hover {
+  font-weight: 700;
+}
+.nav__link:active {
+  color: rgb(236, 232, 232);
+}
+@media only screen and (max-width: 768px) {
+  .nav {
+    justify-content: center;
+  }
+}
+</style>
 
 <template>
   <ProgressBar />
@@ -37,29 +60,11 @@ const userStore = useUserStore();
   <RouterView />
 </template>
 
-<style scoped>
-.nav {
-  display: grid;
-  grid-auto-flow: column;
-  grid-gap: 10px;
-  margin-bottom: 15px;
-  justify-content: start;
-}
-.nav__link {
-  color: black;
-}
-.nav__link:visited {
-  color: black;
-}
-.nav__link:hover {
-  font-weight: 700;
-}
-.nav__link:active {
-  color: rgb(126, 126, 126);
-}
-@media only screen and (max-width: 768px) {
-  .nav {
-    justify-content: center;
-  }
-}
-</style>
+<script setup lang="ts">
+import { RouterLink, RouterView } from "vue-router";
+import ProgressBar from "./components/ProgressBar.vue";
+import Toast from "./components/Toast.vue";
+import { useUserStore } from "./stores/user";
+
+const userStore = useUserStore();
+</script>

@@ -10,26 +10,8 @@
   grid-gap: 10px;
   width: 20%;
 }
-.login__input {
-  height: 30px;
-  border: solid 1px black;
-  border-radius: 3px;
-}
-.login__input:focus {
-  height: 28px;
-  border-radius: 3px;
-}
-.login__input:hover {
-  height: 28px;
-  border-radius: 3px;
-}
 .login__button {
-  height: 35px;
   display: block;
-  background: white;
-  border: solid 1px black;
-  border-radius: 3px;
-  color: black;
 }
 .login__label {
   display: block;
@@ -38,7 +20,7 @@
   color: red;
 }
 @media only screen and (max-width: 768px) {
-  .login__form{
+  .login__form {
     width: 80%;
   }
 }
@@ -55,7 +37,7 @@
         class="login__input -password"
         type="password"
       />
-      <button class="login__button" type="submit">Login</button>
+      <button class="login__button" type="submit">login</button>
       <p class="login__text -error">{{ error }}</p>
     </form>
   </main>

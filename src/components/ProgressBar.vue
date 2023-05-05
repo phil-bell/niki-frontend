@@ -1,22 +1,9 @@
 <style>
-.nav__link {
-  color: black;
-}
-.nav__link:visited {
-  color: black;
-}
-.nav__link:hover {
-  font-weight: 700;
-}
-.nav__link:active {
-  color: rgb(126, 126, 126);
-}
 .fixed-top {
   position: fixed;
   top: 0;
   right: 0;
   left: 0;
-  /* z-index: $zindex-fixed; */
 }
 .progress-container {
   width: 100%;
@@ -25,7 +12,7 @@
   display: block;
 }
 .progress-bar {
-  background-color: black;
+  background-color: white;
   width: v-bind(progress);
   display: block;
   height: inherit;
