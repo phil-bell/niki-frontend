@@ -167,7 +167,7 @@ export default {
   data() {
     return {
       adding: false,
-      added: true,
+      added: false,
       location: null,
       server: null,
     };
