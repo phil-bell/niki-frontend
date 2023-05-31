@@ -172,6 +172,14 @@ export default {
       server: null,
     };
   },
+  watch: {
+    torrent(newTorrent, oldTorrent) {
+      this.adding = false;
+      this.added = false;
+      this.location = null;
+      this.server = null;
+    },
+  },
   methods: {
     async submit() {
       const response = await http.post("/api/torrent/", {
