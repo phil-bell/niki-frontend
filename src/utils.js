@@ -28,7 +28,7 @@ const nikiFetch = async (url, method, auth, body, responseStatusHandler) => {
   const headers = {
     Accept: "application/json",
     "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": import.meta.env.VITE_NIKI_BACKEND_URL,
+    "Access-Control-Allow-Origin": "starfish-app-hxdcr.ondigitalocean.app",
     ...(auth && { Authorization: `Bearer ${userStore.access}` }),
   };
 
