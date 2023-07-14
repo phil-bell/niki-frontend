@@ -28,7 +28,6 @@ const nikiFetch = async (url, method, auth, body, responseStatusHandler) => {
   const headers = {
     Accept: "application/json",
     "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "*",
     ...(auth && { Authorization: `Bearer ${userStore.access}` }),
   };
 
